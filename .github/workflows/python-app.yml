@@ -1,0 +1,35 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python CI #my workflow name
+
+## Trigger the workflow on any push to the main branch or pull request
+## Events here it can be push, pull, merge, delete
+on: # inside the on key words we trigger the events
+  push: # This event, means when you will do any push
+    branches: [ "main" ]
+  pull_request: # This another event , means when you will do any pull request
+    branches: [ "main" ]
+
+jobs: 
+  test: #name of the job
+
+    runs-on: ubuntu-latest # it will be run in ubutu-latest in a container 
+
+    steps: # for every workflow steps
+    # Step 1 : Check out the code from the repository
+    - name: Check out code
+      uses: actions/checkout@v2 
+    #Step 2 : Set up Phython environement
+    - name: Set up python
+      uses: actions/setup-python@v2  # this used to create python environement
+      with:
+        python-version: "3.10"
+    #Step 3 : Install dependencies
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    #Step 4 : Run tests
+    - name: Run tests
+      run: pytest
